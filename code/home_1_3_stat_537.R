@@ -31,29 +31,33 @@ qnorm(0.5) ; qnorm(.975)
 pnorm(1.28); pnorm(2.5)
 
 # Problem 16 Chapter 3
-data1<-c(132, 145, 124, 122, 165, 144, 151)
-data2<-c(141,139, 172, 131, 150, 125)
-n1<-length(data1); n2<-length(data2)
-xbar1<-mean(data1); xbar2<-mean(data2);
+d1<-c(132, 145, 124, 122, 165, 144, 151)
+d2<-c(141,139, 172, 131, 150, 125)
+n1<-length(d1); n2<-length(d2)
+xbar1<-mean(d1); xbar2<-mean(d2);
 xbar1; xbar2
 
-s1<-sd(data1); s2<-sd(data2); s1; s2
+s1<-sd(d1); s2<-sd(d2); s1; s2
 xbar1+qnorm(0.975)*s1/sqrt(n1)
 xbar1-qnorm(0.975)*s1/sqrt(n1)
+# “d”  returns the height of the probability density function
+# “p”	returns the cumulative density function
+# “q”	returns the inverse cumulative density function (quantiles)
+# “r”	returns randomly generated numbers
 
 sp<-sqrt(((n1-1)*s1^2+(n2-1)*s2^2)/(n1+n2-2))
 sp^2; sp
 t=(xbar1-xbar2)/(sp * sqrt(n1^(-1)+n2^(-1) )); t
 
 # t.test performs a one or two sample t-test
-t.test(data1, data2)
-t.test(data1, data2, var.equal=TRUE)
+t.test(d1, d2)
+t.test(d1, d2, var.equal=TRUE)
 pt(3.29, df=11)
 pt(0.29, df=11)
 pt(0.52, df=11)
 2*(1-pt(0.52, df=11))
 
-var.test(data1, data2) # Test for equality of variances.
+var.test(d1, d2) # Test for equality of variances.
 # Equality of variances means that the ratio of the two variances is 1.
 # So the null hypothesis says that: Ho: the ratio of variances is 1
 # The alternative says that: Ha: the ratio variance is not 1.
@@ -62,7 +66,7 @@ var.test(data1, data2) # Test for equality of variances.
 # The sample estimate of the ratio is: 0.8646
 
 
-# Data on systolic blood pressure (sbp) and age of 30 individuals available in textbook page 51
+# data on systolic blood pressure (sbp) and age of 30 individuals available in textbook page 51
 
 sby<-c(144, 220, 138, 145, 162, 142, 170, 124, 158, 154, 162, 150, 140, 110, 128,
 130, 135, 114, 116, 124, 136, 142, 120, 120, 160, 158, 144, 130, 125, 175)
@@ -70,9 +74,9 @@ age<-c(39, 47, 45, 47, 65, 46, 67, 42, 67, 56, 64, 56, 59, 34, 42, 48, 45, 17,
 20, 19, 36, 50, 39, 21, 44, 53, 63, 29, 25, 69)
 
 plot(age, sby)
-plot(age, sby, xlab="age of the individuals", ylab="systolic blood pressure", title("Scatter plot data"))
+plot(age, sby, xlab="age of the individuals", ylab="systolic blood pressure", title("Scatter plot d"))
 
-# Here is another example of data: salt concentration in surface streams (Y variable)
+# Here is another example of d: salt concentration in surface streams (Y variable)
 # and percentage of watershed area consisting of paved roads(X variable)
 salt<-c(3.8, 5.9, 14.1, 10.4, 14.6, 14.5, 15.1, 11.9, 15.5, 9.3,
 15.6, 20.8, 14.6, 16.6, 25.6, 20.9, 29.9, 19.6, 31.3, 32.7)
@@ -82,7 +86,7 @@ road<-c(0.19, 0.15, 0.57, 0.40, 0.70, 0.67, 0.63, 0.47, 0.75, 0.60,
 plot(road, salt)  # The scatter plot suggests a linear model to understand the mechanism betwen x and y
 
 # Group of 26 adults surveyed for their weight and blood pressure
-# Data is available in the text file called 'adult'
+# d is available in the text file called 'adult'
 weight <- c( 165 ,167 , 180  ,155 ,212  ,175  ,190 , 210  ,200  ,149  ,158  ,169  ,170  , 172 ,159 , 168 ,174  ,183, 215 ,195  , 180 , 143  , 240 , 235  ,192  , 187)
 l=length(weight); l
 m=mean(weight); s=sd(weight); m; s;
@@ -90,7 +94,7 @@ blood.pressure <- c( 130 , 133 , 150 , 128 , 151 , 146 , 150, 140 , 148 , 125 , 
 
 adults <-c(165, 130, 167, 133, 180, 150, 155, 128, 212, 151, 175, 146, 190, 150, 210, 140, 200, 148, 149, 125, 158, 133, 169, 135, 170, 150, 172, 153, 159, 128, 168, 132, 174, 149, 183, 158, 215, 150, 195, 163, 180, 156, 143, 124, 240, 170, 235, 165, 192, 160, 187, 159)
 
-t.test(adults, mu=175, alternative="greater") # data adult has both weight and blood pressure. So not so good.
+t.test(adults, mu=175, alternative="greater") # d adult has both weight and blood pressure. So not so good.
 
 t.test(weight, mu=175, alternative="greater")
 ?pnorm
@@ -142,12 +146,12 @@ y=dnorm(x)
 plot(x,y)
 
 
-#One way to use a data set that has been saved in a text file. Change the location.
+#One way to use a d set that has been saved in a text file. Change the location.
 
-data1=scan("G:/Stat 437-537/adults.txt")
-data1=read.table("G:/Stat 437-537/adults.txt", header=TRUE, sep=" ")
+d1=scan("G:/Stat 437-537/adults.txt")
+d1=read.table("G:/Stat 437-537/adults.txt", header=TRUE, sep=" ")
 
-Data<-c(139, 118, 164, 151, 182, 140, 134, 142, 109, 130, 107, 155, 88, 95, 104)
+d<-c(139, 118, 164, 151, 182, 140, 134, 142, 109, 130, 107, 155, 88, 95, 104)
 
 
 
@@ -179,7 +183,7 @@ boxplot(weight)
 boxplot(weight, blood.pressure)
 
 pie(weight)     # Not interesting at all.
-# So let's look at a categorical data the number of cars per houseolds
+# So let's look at a categorical d the number of cars per houseolds
 cars<-c(3, 4, 1, 1, 3, 4 ,3 ,3 ,1, 3, 2, 1, 2, 1 ,2 ,3 ,2 ,3 ,1 ,1 ,1 ,1 ,4 ,3 ,1)
 mean(cars)
 table=table(cars)
@@ -235,21 +239,21 @@ y=dnorm(x)
 plot(x,y)
 
 
-# One way to use a data set that has been saved in a text file. Change the location.
+# One way to use a d set that has been saved in a text file. Change the location.
 
-data<-read.table("G:/Stat 437-537/adults.txt", header=TRUE)
-attach(data)  this makes the variables easy to use
+d<-read.table("G:/Stat 437-537/adults.txt", header=TRUE)
+attach(d)  this makes the variables easy to use
 model1=lm(x~y)
 model1
 model2=lm(y~x)
 model2
 summary(model1)
 
-data1=scan("G:/Stat 437-537/adults.txt")
-data1=read.table("G:/Stat 437-537/adults.txt", header=TRUE, sep=" ")
+d1=scan("G:/Stat 437-537/adults.txt")
+d1=read.table("G:/Stat 437-537/adults.txt", header=TRUE, sep=" ")
 
-data<-read.table("G:/Stat 437-537/boil.txt", header=TRUE)
-attach(data)
+d<-read.table("G:/Stat 437-537/boil.txt", header=TRUE)
+attach(d)
 plot(boil, pres)
 model1<-lm(boil~pres)
 model2<-lm(pres~boil)
@@ -279,7 +283,7 @@ coef(model1)[1] + c(-1,1)*qt(.975,29)*(0.77323)
 Confidence and Prediction intervals
 
 clm<-predict(model1, interval="confidence",level=.99 )
-plot(data, main=" det vs hgt", xlab="det", ylab="hgt")
+plot(d, main=" det vs hgt", xlab="det", ylab="hgt")
 abline(coef(model1))
 
 cli<- predict(model1, interval="prediction", level=.99 )
@@ -292,23 +296,23 @@ abline(lm.model)
 
 
 
-data<-read.table("G:/Stat 437-537/prob_c.txt", header=TRUE)
-attach(data)
+d<-read.table("G:/Stat 437-537/prob_c.txt", header=TRUE)
+attach(d)
 model1<-lm(ght~det)
 
 # To get the SSP
 hgt
 det
-data=data.frame(hgt=hgt, group=factor(det))
-data
-fit=lm(hgt~group, data)
+d=d.frame(hgt=hgt, group=factor(det))
+d
+fit=lm(hgt~group, d)
 fit
 anova(fit)
 
 
-data<-read.table("G:/Stat 437-537/poly.txt", header=TRUE)
-attach(data)
-names(data)
+d<-read.table("G:/Stat 437-537/poly.txt", header=TRUE)
+attach(d)
+names(d)
 model1<-lm(y~x)
 model2<-lm(y~x+I(x^2))
 model3<-lm(y~x+I(x^2)+I(x^3))
@@ -346,16 +350,16 @@ rmse_press<-sqrt(PRESS/length(y))
 # Now repeat that for model 2, model 3, and model 4.
 # Then compare the estimated RMSE_PRESS
 
-m1.lm<-lm(y~x, data=data)
+m1.lm<-lm(y~x, d=d)
 summary(m1.lm)  gives the coefficients, Rsquare, residuals,
 fitted(m1.lm)
 resid(m1.lm)
 summary.aov(m1.lm)
 
 
-data<-read.table("G:/Stat 437-537/reading.txt", header=TRUE)
+d<-read.table("G:/Stat 437-537/reading.txt", header=TRUE)
 attach(reading)
-names(data)
+names(d)
 model <- lm(score ~ age + tvhrs
 anova(model)
 summary(model1)
