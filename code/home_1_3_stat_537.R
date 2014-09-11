@@ -1,27 +1,48 @@
-
-## Stat 437-537   ##
-## Norou Diawara  ##
 ## R file         ##
 ## Stat 437-537   ##
 
-help()
-q()
+#setwd(../)
+#geted()
 
-2+2
-exp(0); exp(9)
-log(100, base 10)
-pi
+
+# to find the value of of the inverse CDF always use "q"
 
 # Homework 1
+#Problem 3 Chapter 3
+#P(Z >=-1)=?
+pnorm(0.00, -1)
+#[1] 0.8413447
+#P(Z<= X)=.20
+qnorm(.20)
+#[1] -0.8416212
 
 # Problem 4 Chapter 3
+#P(chisq(7)>= X)=.01
 qchisq(0.99, 7)
+#[1] 18.47531
+#P(chisq(12)<= 14)=?
 pchisq(14,12)
+#[1] 0.6992917
+
+#Problem 5
+#P(T(13)<X)=.10
+qt(.10, 13)
+#[1] -1.350171
+#P(|T(28)|>= 2.05)
+1-pt(2.05, 28)
+#[1] 0.02491697
 
 # Problem 6 Chapter 3
+#For the F distro, remember that the first numnber is the df of the numerator, and the 2nd is the df of the denominator
+#P(F(6,24)>= X)=.05
 qf(0.95, 6, 24)
+#[1] 0.02491697
+#P(F(5,40) >= 2.9)=?
 pf(2.9, 5, 40)
+#[1] 0.9748583
 1-pf(2.9, 5, 40)
+#[1] 0.02514165 --is the answer to the question, and is the chart used to find the answer in the back of the book-- 
+
 
 # Problem 12 Chapter 3
 qt(.975, 27)
@@ -40,7 +61,7 @@ xbar1; xbar2
 s1<-sd(d1); s2<-sd(d2); s1; s2
 xbar1+qnorm(0.975)*s1/sqrt(n1)
 xbar1-qnorm(0.975)*s1/sqrt(n1)
-# “d”  returns the height of the probability density function
+# “d” returns the height of the probability density function
 # “p”	returns the cumulative density function
 # “q”	returns the inverse cumulative density function (quantiles)
 # “r”	returns randomly generated numbers
