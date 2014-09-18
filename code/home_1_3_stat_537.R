@@ -1,8 +1,8 @@
 ## R file         ##
 ## Stat 437-537   ##
 
-#setwd(../)
-#geted()
+#setwd("/Users/jasonrich/Documents/GitHub/R/code")
+#getwd()
 
 
 # to find the value of of the inverse CDF always use "q"
@@ -89,13 +89,20 @@ var.test(d1, d2) # Test for equality of variances.
 
 # data on systolic blood pressure (sbp) and age of 30 individuals available in textbook page 51
 
-sby<-c(144, 220, 138, 145, 162, 142, 170, 124, 158, 154, 162, 150, 140, 110, 128,
-130, 135, 114, 116, 124, 136, 142, 120, 120, 160, 158, 144, 130, 125, 175)
-age<-c(39, 47, 45, 47, 65, 46, 67, 42, 67, 56, 64, 56, 59, 34, 42, 48, 45, 17,
-20, 19, 36, 50, 39, 21, 44, 53, 63, 29, 25, 69)
+sbp<-c(135, 122, 130, 148, 146, 129, 162, 160, 144, 180, 166, 138, 152, 138, 140, 
+       134, 145, 142, 135, 142, 150, 144, 137, 132, 149, 132, 120, 126, 161, 170, 
+       152, 164)
+quet<- c(2.876, 3.251, 3.100, 3.768,2.979,2.790, 3.668, 3.612, 2.368, 4.637, 3.877,
+         4.032,4.116,3.673, 3.562, 2.998, 3.360, 3.024, 3.171, 3.401, 3.628, 3.751, 
+         3.296, 3.210,3.301, 3.017, 2.789, 2.956, 3.800, 4.132, 3.962, 4.010)
+age<-c(45, 41, 49, 52, 54, 47, 60, 48, 44, 64,59, 51, 64, 56, 54, 50, 49, 46, 57, 
+       56, 56, 58, 53, 50, 54, 48, 43, 43, 63, 63, 62, 65)
+smker<-c(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 
+         0, 1, 0, 1, 0, 0) 
 
-plot(age, sby)
-plot(age, sby, xlab="age of the individuals", ylab="systolic blood pressure", title("Scatter plot d"))
+plot(quet, sbp, xlab="QUET", ylab="SBP", title("SBP/QUET"))
+plot(age, sbp, xlab="AGE", ylab="SBP", title("SBP/AGE"))
+plot(age, quet, xlab="AGE", ylab="QUET", title("QUET/AGE"))
 
 # Here is another example of d: salt concentration in surface streams (Y variable)
 # and percentage of watershed area consisting of paved roads(X variable)
