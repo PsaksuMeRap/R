@@ -262,6 +262,8 @@ line2= glm(weight~ blood.pressure)
 plot(weight~ blood.pressure)
 abline(line2)
 
+?abline
+
 x=rnorm(1000, mean=0, sd=1)
 y=dnorm(x)
 plot(x,y)
