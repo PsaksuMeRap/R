@@ -1,7 +1,6 @@
-# Jason Rich
-# H/W # 2
-# STAT 537
-
+#?paste
+paste("Jason Rich, Home Work #2", date())
+"Jason Rich, Home Work #2 Tue Sep 30 23:40:45 2014"
 
 #setwd("/Users/jasonrich/Documents/GitHub/R/code")
 #getwd()
