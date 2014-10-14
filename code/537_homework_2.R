@@ -2,8 +2,12 @@
 paste("Jason Rich, Home Work #2", date())
 "Jason Rich, Home Work #2 Tue Sep 30 23:40:45 2014"
 
+#--Residual standard error: 9.812 =sigma(e)= RMSE--> (Residual standard error: 9.812)^2 = MSE*df=SSE
+
 #setwd("/Users/jasonrich/Documents/GitHub/R/code")
 #getwd()
+
+#I prefer glm to lm, unless asking for an ANOVA table, lm() is better  
 
 # problem # 2
 #reading in the data, with SBP(Y) as the response and QUET, AGE, SMKER as the predictors. n = 32
@@ -11,6 +15,8 @@ paste("Jason Rich, Home Work #2", date())
 chooseCRANmirror()
 install.packages(c("car","MASS"))
 library(car)
+
+
 
 
 sbp<-c(135, 122, 130, 148, 146, 129, 162, 160, 144, 180, 166, 138, 152, 138, 140, 
@@ -88,13 +94,13 @@ summary(d1)
 # -19.231  -7.145  -1.604   7.798  22.531 
 # 
 # Coefficients:
-#   Estimate Std. Error t value Pr(>|t|)    
-# (Intercept)   70.576     12.322   5.728 2.99e-06 ***
-#   quet          21.492      3.545   6.062 1.17e-06 ***
+#               Estimate Std. Error t value Pr(>|t|)        |--Std. Error--|
+# (Intercept)   70.576     12.322   5.728  2.99e-06 ***      |B(0) = 12.322|
+#   quet        21.492      3.545   6.062  1.17e-06 ***      |B(1) = 3.545|
 #   ---
 #   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 # 
-# Residual standard error: 9.812 on 30 degrees of freedom
+# Residual standard error: 9.812 on 30 degrees of freedom --Residual standard error: 9.812 =sigma(e)= RMSE--> (Residual standard error: 9.812)^2 = MSE*df=SSE
 # Multiple R-squared:  0.5506,  Adjusted R-squared:  0.5356 
 # F-statistic: 36.75 on 1 and 30 DF,  p-value: 1.172e-06
 
@@ -104,8 +110,9 @@ scatterplot(quet, sbp, xlab="QUET", ylab="SBP", title("prob2.b"))
 #Multiple R-squared:  0.5506,  Adjusted R-squared:  0.5356. The relationship between X and Y may not be a linear relationship.
 
 #2.b.3
-#H0: slope = 0
-#Ha: slope != 0
+#two-sided test 
+#H0: beta.1 = 0
+#Ha: beta.1 != 0
 
 d1$coeff
 #(Intercept)        quet 
@@ -125,8 +132,8 @@ t.s
 #?predict
 prd_001<-predict(d1, newdata=data.frame(c(21.492)), interval="confidence", level=0.95)
 prd_001
-#My test statistic is greater than my critical value, and value is contained within the CI's. The evidence does support the claim
-# that slope is zero. Therefore I fail to reject the H0.
+#My test statistic is greater than my critical value, and value is contained within the CI's, yet zero is not. 
+#The evidence does support the claim that slope is zero. Therefore I reject the H0.
 
 #2.b.4
 #NO
@@ -158,6 +165,7 @@ predict(d1, se.fit= TRUE, ci.fit = TRUE, pi.fit = TRUE, level=0.95 )
 #mean of quet
 xbar <- mean(quet)
 xbar #3.441094
+var(quet)
 
 #critical value
 t <- qt(.975, 30)
@@ -165,19 +173,22 @@ t # 2.042272
 
 #(x0- xbar)^2
 top <- (3.4-xbar)^2
-bottom <- (31)*var(quet)
-
-#standard error
+sigma.e.hat<-  9.812 #Residual standard error: 9.812 from the lm() call
 f <- 1+1/32
+f
+#sxx = sum(x(i)-x_bar)^2, or (sigma.e.hat/se(b(1)_hat)^2
+#ssx = var(x)*(n-1)--variance of X * the degress of freedom -1
+sxx<-(sigma.e.hat/3.545)^2
+sxx #7.66095
+#standard error
+se <- sigma.e.hat*sqrt(f+ (top/sxx))
+se #9.965198
 
-se <- sd(quet)*sqrt(f+ (top/bottom))
-se #0.5048391
-
-ybar <- mean(sbp)
-ybar #144.5312
-pred.inv <-144.5312 + 21.492*(3.4-xbar) - (2.042272*0.5048391)
-pred.inv #142.617
-pred.inv.plus <-144.5312 + 21.492*(3.4-xbar) + (2.042272*0.5048391)
+y.hat<- 70.576 + (21.492*3.4)
+y.hat # 143.6488
+pred.inv <-144.5312 + 21.492*(3.4) - (2.042272*0.5048391)
+pred.inv 
+pred.inv.plus <-144.5312 + 21.492*(3.4) + (2.042272*0.5048391)
 pred.inv.plus #144.679
 
 #prediction interval = (142.617,144.679), where the mean of Y is closers to the upper limit of the prediction band. 
@@ -468,20 +479,20 @@ scatterplot(age,sbp, xlab="AGE", ylab="SBP", title("prob:2.d.2"))
 #Multiple R-squared:  0.6009,  Adjusted R-squared:  0.5876. The relationship between X and Y may not be a linear relationship.
 
 #2.d.3
-#H0: slope = 0
-#Ha: slope != 0
+#H0: beta.1 = 0
+#Ha: beta.1 != 0
 
 d3$coeff
 # (Intercept)     age 
 # 59.09162     1.60450 
 
-qnorm(.95) # critical value
+pnorm(.975) # critical value
 # 1.644854
 c.i.plus<-1.60450 +1.644854* 0.2387 
 c.i.plus 
 c.i.minus<-1.60450 -1.644854* 0.2387 
 c.i.minus
-#CI(1.211873, 1.997127)
+#CI(1.211873, 1.997127); zero is not included
 t.s<-1.60450/0.2387
 t.s
 #6.721827
@@ -489,8 +500,8 @@ t.s
 #?predict
 prd_002<-predict(d2, newdata=data.frame(c(0.05736417)), interval="confidence", level=0.95)
 prd_002
-#My test statistic is greater than my critical value, and value is contained within the CI's. The evidence does support the claim
-# that the slope is zero. Therefore I fail to reject the H0.
+#My test statistic is greater than my critical value, and value is contained within the CI's, yet zero is not. 
+#The evidence does support the claim that the slope is zero. Therefore reject the H0.
 
 #2.d.4
 #NO
@@ -522,8 +533,8 @@ mean(smk) #147.8235
 
 #2.e.3
 
-#H0: slope = 0
-#Ha: slope != 0
+#H0: beta.1 = 0
+#Ha: beta.1 != 0
 
 d5<- lm(formula = sbp~smker)
 summary(d5)
@@ -539,7 +550,7 @@ t.test(n.smk, smk, level=0.95)
 #Welch Two Sample t-test
 
 # data:  n.smk and smk
-# t = -1.4129, df = 29.963, p-value = 0.168
+# t = -1.4129, df = 29.963, p-value = 0.168 (high p-value)
 # alternative hypothesis: true difference in means is not equal to 0
 # 95 percent confidence interval:
 #   -17.17585   3.12879
@@ -687,13 +698,18 @@ atst <- c(586.00, 461.75, 491.10, 565.00, 462.00, 532.10, 477.60,515.20, 493.00,
 length(atst) #13
 age_01 <- c(4.4, 14.00, 10.10, 6.70, 11.50, 9.60, 12.40, 8.90, 11.10, 7.75, 5.50, 8.60, 7.20)
 
-d8 <- lm(formula = atst~age_01)
+
+#?lm
+d8 <- lm(formula=atst~ age_01)
 summary(d8)
 # Coefficients:
 # Estimate Std. Error t value Pr(>|t|)    
 # (Intercept)  646.483     12.918   50.05 2.49e-14 ***
 #   age_01       -14.041      1.368  -10.26 5.70e-07 ***
 
+
+#?anova.glm
+anova(d8)
 scatterplot(age_01, atst, xlab="AGE", ylab="ATST", title("Nume:6"))
 
 
@@ -725,13 +741,36 @@ ts_b
 #critical value 
 qt(.975, 11)
 #2.200985
+#######################
+#from problem 2--Need to change the number, but the formulas are good
 
+#se(beta.1.hat)=t(n-2)*sigma.e.hat/sqrt(Sxx)
+#mean of quet
+xbar <- mean(quet)
+xbar #3.441094
+var(quet)
 
-#6.d
-#confidence intervals
-ci_slope_5<- -14.041 - (2.200985*0.1969703)
+#critical value
+t <- qt(.975, 30)
+t # 2.042272
+
+#(x0- xbar)^2
+top <- (3.4-xbar)^2
+sigma.e.hat<-  9.812 #Residual standard error: 9.812 from the lm() call
+f <- 1+1/32
+f
+#sxx = sum(x(i)-x_bar)^2, or (sigma.e.hat/se(b(1)_hat)^2
+#ssx = var(x)*(n-1)--variance of X * the degress of freedom -1
+sxx<-(sigma.e.hat/3.545)^2
+sxx #7.66095
+#standard error
+se <- sigma.e.hat*sqrt(f+ (top/sxx))
+se #9.965198
+
+#--CI's for 6, 
+ci_slope_5<- -14.041 - ()
 #--14.47453
-ci_slope_6 <- -14.041 + (2.200985*0.1969703)
+ci_slope_6 <- -14.041 + ()
 #-13.60747
 #zero is not within the CI. Thus, at this time, the evidence does not support the claim that the slope = zero.
 #Therefore, I reject the H0, that slope(beta_one_hat)=0
@@ -755,7 +794,7 @@ cgpa <- c(2.58, 2.31, 2.47, 2.52, 3.22, 3.37, 2.43, 3.08, 2.78, 2.98, 3.55, 3.64
           2.52, 3.22, 3.55, 3.55, 2.47, 2.47, 2.78, 2.78, 2.98, 2.58, 2.58, 2.58)
 length(cgpa)
 
-d9 <- lm(formula=sal~cgpa)
+d9 <- glm(formula=sal~cgpa)
 summary(d9)
 # Call:
 #   lm(formula = sal ~ cgpa)
@@ -782,12 +821,12 @@ scatterplot(cgpa, sal, xlab="SAL", ylab="CGPD", title("Nume:8"))
 #8.b
 #No: independence,linearity, and homoskedasticity are all violated
 
-#8.c
+#8.c (obtain a 95% CI for beta.1)
+#beta.1.hat = sxy/sxx(from the regression output)+- t(n-2)|(a/2)*se(beta.1.hat) 
+#critical values 
 
-#critical values
-
-qt(0.95, 28)
-#1.701131
+qt(0.975, 28)
+#2.048407
 
 slope_4 <- 3637.4 
 sd_y.x_4 <- sqrt(1122)
@@ -830,26 +869,29 @@ ci_slope_8 <- 3637.4 + (1.701131*0.5017316)
 #H0: mu=11500
 #Ha: mu!=11500
 
-qt(0.95, 28)
-#1.701131
+#?anova
+anova(d9)
+
+qt(0.975, 28)
+#2.048407
 
 mean(cgpa)
 #2.838333
 mean(sal)
 #10742.17
 
-mse <- 1/28 * 1122
+mse <- 1/28 * 1259141 
 mse
-#40.07143
+#44969.32
 rmse <- sqrt(mse)
 rmse
-#6.3302
+#212.0597
 
 #confidence intervals
-ci_slope_mum<- 11500 - (1.701131*6.3302)
-#11489.23
-ci_slope_mup <- 11500 + (1.701131*6.3302)
-#11510.77
+ci_slope_mum<- 11500 - (2.048407*6.3302)
+#11487.03
+ci_slope_mup <- 11500 + (2.048407*6.3302)
+#11512.97
 
 #at this time, the evidence does support fact that the mu(y|x) does equal 11500. Thus, I fail to reject the H0.
 
@@ -921,8 +963,8 @@ mse_yi #1.392658
 #Ha: rho != 0
 
 
-qt(.95, 8)
-#1.859548
+qt(.975, 8)
+#2.306004
 ts_rho <- r*(sqrt(8)/sqrt(1-r^2))
 ts_rho #13.87448
 
@@ -968,7 +1010,7 @@ summary(p8)
 # F-statistic: 48.72 on 1 and 18 DF,  p-value: 1.615e-06
 
 #8.3
-
+#?aov
 #?anova
  anova(p8)
 # Analysis of Variance Table

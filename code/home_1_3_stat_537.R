@@ -10,7 +10,7 @@
 # Homework 1
 #Problem 3 Chapter 3
 #P(Z >=-1)=?
-pnorm(0.00, -1)
+pnorm(0.80, -1)
 #[1] 0.8413447
 #P(Z<= X)=.20
 qnorm(.20)
