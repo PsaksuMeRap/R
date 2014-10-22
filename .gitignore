@@ -1,0 +1,6 @@
+**/*.Rhistory
+**/*.RData
+**/.xls*
+**/.csv
+**/*.txt
+**/*.gz
