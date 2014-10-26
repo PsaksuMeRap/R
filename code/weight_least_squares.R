@@ -21,6 +21,25 @@ lm.1
 
 summary(lm.1)
 
+# Call:
+#   lm(formula = rooms ~ crews)
+# 
+# Residuals:
+#   Min       1Q   Median       3Q      Max 
+# -15.9990  -4.9901   0.8046   4.0010  17.0010 
+# 
+# Coefficients:
+#   Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)   1.7847     2.0965   0.851    0.399    
+# crews         3.7009     0.2118  17.472   <2e-16 ***
+#   ---
+#   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 7.336 on 51 degrees of freedom
+# Multiple R-squared:  0.8569,  Adjusted R-squared:  0.854 
+# F-statistic: 305.3 on 1 and 51 DF,  p-value: < 2.2e-16
+
+
 case.1<- c(7, 10, 14, 15, 16, 23, 40, 47, 48, 6, 8, 27, 28, 51, 52, 9, 17, 22, 24, 33, 12, 30, 36, 38, 39, 42, 43, 49, 2, 18, 21
            , 25, 31, 34, 37, 45, 3, 11, 26, 35, 44, 50, 53, 1, 4, 5, 13, 19, 20, 29, 32, 41, 46)
 crews.1<- c(2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 19, 4, 4, 4, 4, 6, 6, 6, 6, 6, 8, 8, 8, 8, 8, 8, 8, 8, 10, 10, 10, 10, 10, 10, 10, 10, 12, 12, 12
@@ -69,10 +88,4 @@ summary(lm.2)
 # F-statistic: 294.4 on 1 and 51 DF,  p-value: < 2.2e-16
 
 
-
-/*This expression below gives us the Pure error Sum of Squares: SSP*/
-  proc anova data=d2;
-class crews;
-model rooms=crews;
-run;
 
