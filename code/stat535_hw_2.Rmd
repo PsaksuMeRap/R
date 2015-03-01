@@ -1,0 +1,336 @@
+---
+title: "STAT 535 H/W 2"
+author: "Jason Rich"
+date: "February 23, 2015"
+output: pdf_document
+fontsize: 11pt
+---
+```{r, include = FALSE}
+## setup knitr and display options
+library(knitr)
+```
+
+```{r, include=FALSE} 
+#to use LaTex language within the Markdown
+library(pander)
+```
+
+```{r, include=FALSE, results='asis'}
+panderOptions('knitr.auto.asis', FALSE)
+```
+
+``` {r, include=FALSE, echo=FALSE}
+#setwd("../") //parent directory
+#getwd()
+```
+
+*Problem 3.10*
+
+*a.) model and assuptions*
+
+$\\Y{ij} = \mu + \tau_i + e_{ij}$
+
+e ~ iid N(0, $\sigma^2)$
+
+*i = 1,2,3,...,a*
+
+*j = 1,2,3,...,n*
+
+$\sum\limits_{i=1}^a \tau_i =0$
+
+*a.)*
+``` {r, include=TRUE, echo=FALSE}
+cat("ANOVA Table for Cotton Strength")
+c1 <- read.table("/Volumes/LaCie/GitHub/R/data/cotton.txt", header=TRUE)
+#c1
+attach(c1)
+
+c1$weight <- as.factor(c1$weight)
+aov.2 <- aov(strength ~ weight, data= c1)
+summary(aov.2)
+```
+*Test of Hypothosis* 
+
+$H_0$: $\mu_1$ = $\mu_2$ = $\mu_3$ = $\mu_4$ = $\mu_5$
+
+$H_1$: at least one $\mu_i \neq$ 0
+
+```{r, include=TRUE, echo=FALSE}
+cat("grand mean for cotton strength")
+grand.mean.c1 <- mean(c1$strength)
+grand.mean.c1 
+
+
+```
+
+*b.)*
+test:
+
+$H_0$: $\frac{\mu_2 + \mu_5}{2} = \frac{\mu_2 + \mu_3 + \mu_4}{3}$  
+      
+$H_1$: $\frac{\mu_2 + \mu_5}{2} \neq  \frac{\mu_2 + \mu_3 + \mu_4}{3}$ 
+
+at the $\alpha = 0.05$ level
+
+
+$\frac{(9.8 +10.8)}{2} = \frac{(15.4 + 17.6 + 21.6)}{3}$
+
+with $c_1 = c_5 = \frac{1}{2}$
+
+and $c_2 = c_3 = c_4 = \frac{1}{3}$
+
+$t_0 = \frac{\sum\limits_{i=1}^a c_i\bar{Y}_i}{\sqrt{\frac{MSE}{n}\sum\limits_{i=1}^a c_i^2}}$
+
+```{r, include=TRUE, echo=FALSE}
+tapply(c1$strength, c1$weight, mean)
+```
+
+test statistic
+``` {r, include=TRUE, echo=FALSE}
+2*(18.2+10.3)/sqrt((8.06/5)*4)
+```
+t-value
+``` {r, include=TRUE, echo=FALSE}
+qt(.975, 20)
+```
+
+our test statistic in absolute value is greater than our t-value. Thus I would reject the null hypothesis
+
+*c.)* 
+
+confidence intervals for the above contrast
+
+```{r, results='markup', include=TRUE, echo=FALSE}
+(2*(18.2+10.3))-qt(.975, 20)*sqrt((8.06/5)*4); (2*(18.2+10.3))+qt(.975, 20)*sqrt((8.06/5)*4)  
+```
+
+*d.)*
+
+total number of meaningful contrast
+
+```{r, include=TRUE, echo=FALSE}
+library(car)
+contr.treatment(5)
+
+contrasts(c1$weight) = contr.treatment(5)
+```
+
+```{r, include=TRUE, echo=FALSE}
+named.contr.sum<-function(x, ...) {
+    if (is.factor(x)) {
+        x <- levels(x)
+    } else if (is.numeric(x) & length(x)==1L) {
+        stop("cannot create names with integer value. Pass factor levels")
+    }
+    x<-contr.sum(x, ...)
+    colnames(x) <- apply(x,2,function(x) 
+         paste(names(x[x>0]), names(x[x<0]), sep="-")
+    )
+    x
+}
+
+named.contr.sum(levels(c1$weight ))
+```
+
+*e.)*
+maximum set of mutually orthogonal contrast;
+max number of orthogonal contrast is *p-1* where *p* is the total number of treatment levels
+
+```{r, include=TRUE, echo=FALSE}
+contr.poly(5)
+contrasts(c1$weight) = contr.poly(5)
+```
+*f.)*
+```{r, include=TRUE, echo=FALSE}
+library(agricolae)
+comparison <- scheffe.test(aov.2 ,"weight", group=TRUE,console=TRUE,
+                           main=NULL)
+```
+
+*g.)*
+```{r, include=TRUE, echo=FALSE}
+TukeyHSD(aov.2, conf.level=.95)
+```
+
+*h.)*
+Bonferroni
+```{r, include=TRUE, echo=FALSE}
+pairwise.t.test(c1$strength,c1$weight,p.adjust.method="bonferroni", pool.sd=T)
+```
+
+Tukey
+```{r, include=TRUE, echo=FALSE}
+TukeyHSD(aov.2, conf.level=.90)
+```
+
+Scheffe
+```{r, include=TRUE, echo=FALSE}
+scheffe.test(aov.2 ,"weight",alpha = 0.10,group=TRUE,console=TRUE,
+                           main=NULL)
+```
+Scheffe's test is the most conservative of the three iterations. 
+
+*i.)* 
+
+I would recommend to test all possible contrast, not just those annotated within the problem. Furthermore, I would consider sticking with the Scheffe method of comparing multiple mean contrast, because it offers the smallest, and those the most conservative confidence interval. 
+
+*Problem 9*
+```{r}
+#####################################################################
+#Reading the Data
+#####################################################################
+## This data contians three variables:
+#1.) site: factor with eight levels
+#2.) parcel within each site: factor with 4 levels
+#3.) ears: response variable measuring the numbner of ears grown, given the two factors
+#source of variation derive from parcel and site 
+```
+```{r, include=FALSE}
+d1 <- read.table("/Volumes/LaCie/GitHub/R/data/corn.txt", header=TRUE)
+```
+
+```{r}
+#d1 <- read.table("corn.txt", header=TRUE)
+#d1
+attach(d1)
+
+#ensure the factors are really factors
+d1$site <- as.factor(d1$site)
+d1$parcel <- as.factor(d1$parcel)
+
+#verifying the data structure
+str(d1)
+```
+
+```{r, include=FALSE, echo=FALSE}
+library(MASS)
+library(caret)
+library(ggplot2)
+library(car)
+library(leaps)
+#library(segmented)
+```
+
+*a.) model and assumptions*
+
+$\\Y_{ij} = \mu + \tau_i + e_{ij}$
+
+e ~ iid N(0, $\sigma^2)$
+
+*i = 1,2,3,...,a*
+
+*j = 1,2,3,...,n*
+
+$\sum\limits_{i=1}^a \tau_i =0$
+
+
+
+```{r, include=TRUE, echo=FALSE}
+cat("grand mean for ears of corn") 
+grand.mean <- mean(ears)
+grand.mean
+
+
+#anova model with sources site and total
+corn.aov.1 <- aov(ears ~ site, data= d1)
+summary(corn.aov.1)
+
+#glm summary and coeffieicent
+glm(ears ~ site)
+```
+
+*b.) teatment effects*
+
+
+```{r, include=TRUE, echo=FALSE}
+model.tables(corn.aov.1)
+```
+
+
+
+*c.) Confidence Intervals for the treatment effects of sites WLAN and WEAN*
+
+
+
+$\bar{Y}_{wean} -\bar{Y}_{wlan} +/- t_{\alpha/2,N-a} \sqrt{\frac{MSE_p}{n}}$
+
+
+where $MSE_p$ is the pooled variance for sites WLAN and WEAN
+```{r, include=TRUE, echo=FALSE}
+tapply(d1$ears, d1$site, mean)
+```
+
+```{r, include=TRUE}
+#vector of response elements per site
+wean.1 <- c(43.5,43.5,45.5,46.0)
+wlan.1 <- c(50.0,56.0,50.5,45.5)
+
+#site parameters
+mean(wean.1) 
+var(wean.1) 
+length(wean.1) 
+
+mean(wlan.1) 
+var(wlan.1) 
+length(wlan.1) 
+
+#pooled variance 
+pooled.var <- ((4-1)*1.73 + (4-1)*18.50)/(6)
+pooled.var
+
+#pooled standard deviation
+pooled.sd <- sqrt(pooled.var)
+pooled.sd
+
+
+#t-values: N = 32 a = 8  
+t.crit <- c(-1,1)*qt(.975,24)
+t.crit
+
+conf.inv <- as.numeric(50.50-44.63)+c(-1,1)*qt(.975,24)*sqrt(pooled.var/8)
+conf.inv
+```
+
+
+
+*d.) adding parcel*
+
+$\\Y_{ijk} = \mu + \tau_i + \beta_j + e_{ijk}$
+
+e ~ iid N(0, $\sigma^2)$
+
+*i = 1,2,3,...,a*
+
+*j = 1,2,3,...,b*
+
+*k = 1,2,3,...,n*
+
+$\sum\limits_{i=1}^a \tau_i =0$, 
+$\sum\limits_{i=1}^a \beta_j =0$
+
+
+
+Where the $\beta_j$ are he added blocks to reduce the overall variance of the model
+
+
+
+
+
+```{r, include=TRUE}
+#anova model with sources site, parcels,  and total
+corn.aov.2 <- aov(ears ~ site + parcel, data= d1)
+summary(corn.aov.2)
+
+
+#glm summary and coeffieicent
+glm(ears ~ site + parcel, data = d1)
+
+```
+
+*e.)*
+
+
+The variance for the difference of two parcels is 11.50 with the inclusion of the parcel block variable. This is, apposed to before the addition of parcels, which was calculated at 15.84. This is intutive, because adding a block to the equation, spreads the variation across more variables, and those reduces the total variation concentrated in the residuals.   
+
+
+

@@ -4,8 +4,8 @@ paste("Jason Rich, Home Work #2", date())
 
 #--Residual standard error: 9.812 =sigma(e)= RMSE--> (Residual standard error: 9.812)^2 = MSE*df=SSE
 
-#setwd("/Users/jasonrich/Documents/GitHub/R/code")
-#getwd()
+setwd("/Volumes/LaCie/GitHub/R/code")
+getwd()
 
 #I prefer glm to lm, unless asking for an ANOVA table, lm() is better  
 

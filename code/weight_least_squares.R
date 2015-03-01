@@ -8,36 +8,10 @@ rooms<- c(51, 37, 37, 46, 45, 11, 6, 19, 29, 14, 47, 37, 60, 6, 11, 10, 19, 33, 
           , 72, 22, 55, 65, 26, 52, 55, 33, 38, 23, 38, 10, 65, 31, 33, 47, 42, 78, 6, 6, 40, 39, 9, 22, 41)
           
 lm.1<-lm(formula=rooms~crews)
-
 lm.1
-
-# Call:
-#   lm(formula = rooms ~ crews)
-# 
-# Coefficients:
-#   (Intercept)        crews  
-# 1.785        3.701
-
-
 summary(lm.1)
 
-# Call:
-#   lm(formula = rooms ~ crews)
-# 
-# Residuals:
-#   Min       1Q   Median       3Q      Max 
-# -15.9990  -4.9901   0.8046   4.0010  17.0010 
-# 
-# Coefficients:
-#   Estimate Std. Error t value Pr(>|t|)    
-# (Intercept)   1.7847     2.0965   0.851    0.399    
-# crews         3.7009     0.2118  17.472   <2e-16 ***
-#   ---
-#   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-# 
-# Residual standard error: 7.336 on 51 degrees of freedom
-# Multiple R-squared:  0.8569,  Adjusted R-squared:  0.854 
-# F-statistic: 305.3 on 1 and 51 DF,  p-value: < 2.2e-16
+
 
 
 case.1<- c(7, 10, 14, 15, 16, 23, 40, 47, 48, 6, 8, 27, 28, 51, 52, 9, 17, 22, 24, 33, 12, 30, 36, 38, 39, 42, 43, 49, 2, 18, 21
@@ -58,34 +32,12 @@ w.1<- 1/std.1^2  # weight
 lm.2<- lm(formula=rooms~crews, weights = w.1)
 lm.2
 
-# Call:
-#   lm(formula = rooms ~ crews, weights = w.1)
-# 
-# Coefficients:
-#   (Intercept)        crews  
-# 4.268        3.121  
 
 
 ##Test of Lack of Fit
-
+AIC(lm.2)
+BIC(lm.2)
 summary(lm.2)
-# Call:
-#   lm(formula = rooms ~ crews, weights = w.1)
-# 
-# Weighted Residuals:
-#   Min      1Q  Median      3Q     Max 
-# -3.0682 -0.6013  0.3459  1.0630  3.1544 
-# 
-# Coefficients:
-#               Estimate  Std. Error  t value Pr(>|t|)    
-# (Intercept)     4.2684     1.8892   2.259   0.0282 *  
-#   crews         3.1210     0.1819  17.159   <2e-16 ***
-#   ---
-#   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-# 
-# Residual standard error: 1.327 on 51 degrees of freedom
-# Multiple R-squared:  0.8524,  Adjusted R-squared:  0.8495 
-# F-statistic: 294.4 on 1 and 51 DF,  p-value: < 2.2e-16
 
 
 

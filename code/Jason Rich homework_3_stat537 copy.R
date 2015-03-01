@@ -1,7 +1,7 @@
 paste("Jason Rich", date(), "Homework 3")
 "Jason Rich Sat Oct 10 11:20:28 2014  Homework 3"
 
-#setwd("/Users/jasonrich/Documents/GitHub/R/data/")
+#setwd(../)
 #getwd()
 
 ################ CHAPTER 8 #################
@@ -177,6 +177,8 @@ y.hat.013 #141.4619
 
 #As quet increases from 3.0 to 3.5, a smokers sbp increases from 141.5 to 145.8. That is, a smoker whose weight increaes [quet(100(weight/height))] also risks sbp increase.  
 
+Ok
+
 #B.) 
 
 #R^2 = sum(y.i.hat - y.bar)^2/sum(y.1 - y.bar)^2
@@ -187,6 +189,7 @@ y.hat.013 #141.4619
 
 # using both R^2 and model simplicity, model 2 offers us the best explanation of association. 
 
+Nice
 ############################################################
 
 
@@ -195,7 +198,7 @@ y.hat.013 #141.4619
 #A.)
 x.1<- 2.8
 x.2<-7.0
-y.hat.021<- -.0635 + (23.451*x.1) -(7.073*x.2)
+y.hat.021<- -.0635 + (23.451*x.1) -(7.073*x.2)   # based on the data, replace -.0635 to -.635
 y.hat.021 #16.0883
 
 #The level of pathology is approximately nine units smaller than that of patient #5. 
@@ -211,6 +214,8 @@ rsqr.023<- 1-(11037.2985/13791.1698)
 rsqr.023 #0.1996837
 
 # using both R^2 and model simplicity, model 1 offers us the best explanation of association. 
+
+Okay
 
 #problem 3.) 
 
@@ -238,6 +243,8 @@ rsqr.033 # 0.7011607
 # A.) model 1 is the closest y.hat value to the predicted value of y for patient 4.
 # B.) Furthermore, model 1 has a higher r^2 value than the other two models. Using both R^2 and model simplicity, model 1 offers us the best explanation of association. 
 
+ok
+
 
 #problem 4.) 
 
@@ -263,12 +270,17 @@ rsqr.044 #0.8183178
 #C.) 
 rsqr.045<- 1-(364.630721/1855.2020)
 rsqr.045 #0.803455
-# yes, the addtion of the X(4) variable does lead to an improvement over the model with only X(2) and X(3), although I would say a large improvement. 
+# yes, the addtion of the X(4) variable does lead to an improvement over the model with only X(2) and X(3), although I would NOT say a large improvement. 
 #The interaction term, however, does add a predictive element missing from the model with only X(2) and X(3).
-
+Add "NOT" above
+Predictive element of interaction is useful only if X2 and X3 are independent.
+Also look at the AIC, and AdjRsq
+ 
 #problem 5.)
 
 #see attached written answer
+
+Ok
 
 #problem 11.) 
 
@@ -351,6 +363,8 @@ summary(lm.003)
 
 #B.) Answer is the same as in 8A. 
 
+Best model??
+
 #problem 3.) 
 
 #n=4
@@ -362,6 +376,8 @@ mse.001 #23.46067
 f.x.1<-981.326/mse
 f.x.1 #41.82856
 #F-stat
+?? I do not see y=how you got the F value. Please explan more and compare with solution
+
 pf(.05, 1, 20) #0.1746685
 #the evidence does not supports the claim of the H(0) at the alpha=.05 significance level. Thus, I reject the H(0)
 
@@ -373,7 +389,10 @@ mse.002 #22.22589
 #H(a): B2!=0|X1
 f.x.2<-190.232/mse.002
 f.x.2 #8.559026
+Same issue again with the F-value
+
 #F-stat
+
 pf(.05, 1, 19) #0.1745501
 #the evidence does not supports the claim of the H(0) at the alpha=.05 significance level. Thus, I reject the H(0)
 
@@ -391,7 +410,9 @@ pf(.05, 1, 18) #0.1744185
 
 #B.)
 #H(0): B2=B3=0|X1
-#H(a): B2=B3!=0|X1
+#H(a):  at least 1 B(i)|X1 != 0
+
+#Careful in writing the alternative. The description from the writing is not exact.
 
 f<- (((981.326+190.232+129+431)-981.326)/3)/442.292
 f #0.5654123
@@ -401,7 +422,7 @@ pf(.05, 1, 18) #0.1744185
 
 #C.)
 #H(0): B1=B2=B3=0
-#H(a):  B1=B2=B3!=0
+#H(a):  at least 1 B(i) != 0
 
 #the appropriate test is the partial F-test. Unfortunately, this test can't be accomplished because the necessary SS(reduced) calucations for the models in question,
 #are not provided.
@@ -489,6 +510,19 @@ F-statistic: 2.737 on 3 and 38 DF,  p-value: 0.05682
 
 #H(0): B(4)=B(5)=0
 #H(a): at least one B(j)!=0 (j=4,5)
+
+
+model.lm1<-lm(y~x1+x2+ x3, data=data5)
+model.lm2<-lm(y~x1+x2+ x3+ x4+ x5, data=data5)
+anova(model.lm1, model.lm2)
+#to test the null hypothesis: x4=x5=0;
+
+
+#Another option is to do it as follows:
+model.lm1<-lm(y~x1+x2+ x3+ x4+ x5, data=data5)
+model.lm2<-update(a.lm ~. -x4-x5, data=data5) # this update deletes the terms that are not needed in the model.
+anova(model.lm1, model.lm2, test="F")
+
 
 
 f.B4<- .47
