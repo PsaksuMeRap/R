@@ -1,0 +1,184 @@
+
+---
+title: "Trader Exercise"
+author: "Jason Rich"
+date: "February 16, 2015"
+output: pdf_document
+mainfont: Times New Roman
+fontsize: 11pt
+---
+
+*Source:*
+
+$http://www.commercialtrucktrader.com/RamForSale/searchresults?make=RAM|765326222$
+
+
+
+
+#1.) Listing key data elements for analysis
+
+* Before I start, I want to note, the above link is a page stating: "We're Sorry. We cannot find the page you requested".
+
+  *Data Elements*
+  
+1. Number of instances the above warning occurred, and for what kind of search is it occurring
+    
+2. Absolute path a visitor took after receiving this page
+  
+3. From where did the visitor search begin (i.e. within the web site or externally)
+    
+4. What are the search parameters (year, make, model, color (vehicle), etc)
+    
+5. Time duration spent on this page. 
+        
+   a. time span before clicking any link contain within the page
+        
+   b. time to exiting (possible measure of visitor frustration when finding links)
+        
+   c. statistics on the number of time a visitor clicked:  
+          
+      1. the back button
+          
+      2. find link
+          
+      3. unique visit vs' returning visit
+    
+6. Region of the visit (Country, State, County, City, etc)
+    
+7. Regional demographics (marketing budgets analysis, and ROI improvement)
+    
+8. The difference in items searched: cars vs' trucks, model a vs' model b, etc
+
+9. The number of warning pages one visitor receives in one search instance
+
+10. contact us inquires
+
+11. help center vs' Help link  inquires 
+
+12. click on home logo vs' homepage link
+
+13. sign in statistics
+    
+    a. mean level
+    
+    b. standard deviation from the mean level
+    
+    c. median visitor
+
+14. Dealer statistics
+  
+    a. location
+    
+    b. sales attributed to ads
+    
+    c. number of repeated post for the VIN
+    
+    d. total proportion of ads for individual dealer vs' total dealer population
+    
+    e. dealer proportion v's individual proportion
+    
+    f. demographics (dealership name, phone, email, address, URL, dealership specialty (brand, new, used, etc))
+    
+15. visitor demographics (standardized data structure, since it is not purchased, but self collected)
+    
+    a. return visitor vs' unique
+  
+    b. contact information (name, phone, address, email, social media [ad space])
+    
+    
+#2.) Recommended Reports
+
+1. inventory 
+
+    a. vehicle demographics
+    
+    b. location of posted inventories
+    
+    c. suggested/posted price 
+    
+    d. inventory predicted value
+
+2. regional predicative forecast 
+    
+    a. ROI
+    
+    b. cost/benefit
+    
+    c. economic forecast
+    
+    d. budget 
+    
+3. dealer predicative forecast
+
+4. individual seller predicative forecast
+
+5. Productivity report tracking sales
+
+6. Profit vs' Lost 
+
+7. YTD report for all the above for comparison applicable adjustment 
+
+
+#3.) Software Technologies for Data Collection and Storage
+
+1. Google Analytic
+
+2. Data Warehousing
+    
+    a. Non_SQL 
+        
+        1. MongoDB
+        
+            a. Hadoop 
+        
+        2. applicable rack server implementation (predicated on data storage requirements, parallel disk computing requirements for map-reduction processes)
+        
+        3. AmazonWS for cloud computing and server requirements beyond what can efficiently be stored rack space. This is parallel to, not orthogonal to the current server space.
+        .
+    b. SQL
+        
+        1. MS SQL Server If properly functioning, and all libraries are loaded, and in my opinion has greater capabilities than Oracle. 
+          
+          or
+        
+        2. Oracle PL/SQL
+           
+           b. Benthic Golden 6 Oracle Client
+        
+        3. MySQL_DB (Open Source) and probably my first choice in SQL DB's 
+
+
+#4.) Software and Technologies
+
+1. R statistical computing software, among other things
+
+    a. R-Studio (R interface)
+
+2. BIRT (Business Intelligence Report) 
+
+3. Cygwin, Unix environment of Windows (Unless You give me a iMAC Pro), to compile C++
+
+4. Emacs (preferably for Mac), or VIM with the EMAC hook loaded
+
+5. Sublime Text Editor (for most languages, and plugins for those not included)
+
+6. Python (both 2.x.x, and 3.x.x), iPython notebook 
+
+7. For a Mac (wishful thinking) X Code developers to compile C++ and PHP with the proper command line plugins
+
+8. Docker 
+
+9. GitHub Enterprise (to protect proprietary programs, and projects), as a change tracking, and team collaboration
+
+10. Node.js
+
+11. JavaDoc, to document programs and processes 
+
+12. PHC to compile PHP
+
+13. Visualization: R for statistical graphics, Dygraphs for Data generated Graphs, GIMP for imagine generation and manipulation  
+
+
+    
+      
+  

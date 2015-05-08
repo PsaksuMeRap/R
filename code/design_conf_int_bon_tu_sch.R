@@ -1,8 +1,7 @@
-data<-#read.table("F:/Stat 435-535/data.merch.txt", header=FALSE, col.names=c('agent', 'obs', 'y'))
-data
+data<-read.table("agent.txt", sep=" ", header = TRUE, fill = FALSE, strip.white=TRUE)
 attach(data)
-data.fit<-lm(y~agent)
-data.fit
+data.lm<-lm(y~agent)
+data.lm
 # To make agent a factor,
 agent<-factor(agent)
 
@@ -47,8 +46,8 @@ dfMSE=model.anova$Df
 dfMSE2=dfMSE[2]
 MSE1=model.anova$"Mean Sq"
 MSE2=MSE1[2]
-bonferroniCI(model.means, model.len, dfMSE2, MSE2, conf=.90)
-scheffeCI(model.means, model.len, dfMSE2, MSE2, conf=.90)
+bonferroniCI(model.means, model.len, dfMSE2, MSE2, conf=.95)
+scheffeCI(model.means, model.len, dfMSE2, MSE2, conf=.95)
 
 pairwise.t.test(y,agent, p.adj= "bonferroni")
 ?pairwise.t.test
